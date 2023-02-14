@@ -10,8 +10,8 @@ public class Main {
     static int toX[]={0,0,-1,1}, toY[] = {1,-1,0,0}, toHX[]={-1,1,2,2,1,-1,-2,-2}, toHY[] = {2,2,1,-1,-2,-2,-1,1};
     static int answer = Integer.MAX_VALUE;
     static int k, w, h;
-    static String arr[][] = new String[201][201];
-    static boolean chk[][][] = new boolean[201][201][31];
+    static String arr[][];
+    static boolean chk[][][];
     static class Point {
         int x,y;
         int horseCount;
@@ -71,6 +71,9 @@ public class Main {
         String tmp[] = br.readLine().split(" ");
         w = Integer.parseInt(tmp[0]);
         h = Integer.parseInt(tmp[1]);
+
+        arr = new String[h][w];
+        chk = new boolean[h][w][k+1];
         for(int i=0;i<h;i++) {
             tmp = br.readLine().split(" ");
             for(int j=0;j<w;j++) {
