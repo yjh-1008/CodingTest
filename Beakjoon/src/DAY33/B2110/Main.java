@@ -21,7 +21,7 @@ public class Main {
         return count;
     }
     public static void binary_search(long[] arr, long l, long h,int c) {
-        while(l<=h) {
+        while(l<h) {
             long middle = (l+h)/2;
             if(distance(arr, middle) < c) {
                 h = middle-1;
@@ -29,7 +29,7 @@ public class Main {
                 l = middle+1;
             }
         }
-        System.out.println(l-1);
+        System.out.println(l);
     }
 
 
