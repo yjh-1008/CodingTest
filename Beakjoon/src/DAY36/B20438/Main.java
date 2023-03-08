@@ -30,14 +30,14 @@ public class Main {
             //if(!st.hasMoreTokens()) break;
             int idx =Integer.parseInt(st.nextToken());
             if(sl[idx]) continue;
-            int add = idx;
+            int count = 1;
             while(idx<= n+2) {
                 if(sl[idx]){
-                    idx +=add;
+                    count+=1;
                     continue;
                 }
-                arr[idx] = true;
-                idx+=add;
+                arr[idx*count] = true;
+                count+=1;
             }
         }
 
