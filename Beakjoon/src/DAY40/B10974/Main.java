@@ -20,6 +20,7 @@ public class Main {
             arr[idx] = i;
             dp(arr, n, count+1,visited,idx+1);
             visited[i] = false;
+            arr[idx] = 0;
         }
     }
 
