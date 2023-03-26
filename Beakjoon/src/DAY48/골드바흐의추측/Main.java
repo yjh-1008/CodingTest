@@ -1,4 +1,4 @@
-package DAY6588.골드바흐의추측;
+package DAY48.골드바흐의추측;
 
 import java.io.BufferedReader;
 import java.io.IOException;
