@@ -1,27 +1,26 @@
 const fs = require('fs');
-const [_, target, input] = fs.readFileSync("./dev/stdin").toString().trim().split('\n');
+let [_, m, arr] = fs.readFileSync("./index.txt").toString().trim().split('\n');
+m = parseInt(m);
+arr = arr.split(' ').map(v => parseInt(v));
 
-const num = input.split(' ').map(Number).sort((a, b) => a - b);
-let answer = 0;
 
-let front = num.shift();
-let back = num.pop();
+function solution() {
+    let cnt=0, lt=0, rt=arr.length-1, sum=0;
+    arr.sort((a,b) => a-b);
+    while(lt < rt) {
+        sum = arr[lt] + arr[rt];
+        if (sum === m) {
+            cnt++;
+            lt++;
+            rt--;
+          } else if (sum < m) {
+            lt++;
+          } else {
+            rt--;
+          }
+    }
 
-while (num.length > 0) {
-  const result = front + back
-  if (result == target) {
-    answer++;
-    front = num.shift();
-    back = num.pop();
-
-  } else if (result < target) {
-    front = num.shift();
-  } else {
-    back = num.pop();
-  }
+    return cnt;
 }
-if (front && back && front + back == target) {
-  answer++;
-}
 
-console.log(answer)
+console.log(solution())
