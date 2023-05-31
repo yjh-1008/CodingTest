@@ -12,6 +12,7 @@ function solution(y,x) {
         if(arr[mx][my] === 0) continue;
         solution(my, mx);
     }
+    return;
 }
 
 solution(0,0)
