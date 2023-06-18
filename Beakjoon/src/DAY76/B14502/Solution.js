@@ -54,7 +54,6 @@ function Solution(y,x) {
                 if(arr[i][j] === 0) count++;
             }
         }
-        console.log(count)
         ret = Math.max(ret, count);
         return;
     }
