@@ -1,7 +1,7 @@
 const fs = require('fs');
 const input = fs.readFileSync('./index.txt').toString().trim().split('\n');
 let N = parseInt(input[0]);
-let combies = [],val =[9,3,1], visited= Array.from({length:64}).map((_)=> new Array(64).fill(0).map((__)=> new Array(64).fill(0)))
+let combies = [],val =[9,3,1], visited= Array.from(new Array(64),()=> new Array(64).fill(0).map(()=>new Array(64).fill(0)))
 let arrvis = new Array(3).fill(0);
 let ret=Number.MAX_VALUE;
 function getCombination(idx, arr, cnt) {
