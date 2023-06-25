@@ -26,7 +26,7 @@ function go(s) {
       let nx = tmp+mx[i];
       if(nx < 0 || nx > 100000) continue;
       if(visited[nx] < visited[tmp]+1) continue;
-      if(time < visited[nx]) continue;
+      if(visited[nx] > time) continue;
       visited[nx] = visited[tmp] +1;
       q.push(nx);
     }
