@@ -13,7 +13,7 @@ function Solution() {
       }else break;
     }
   }
-  console.log(ret.length === 0 ? "FRULA" : ret.join(''))
+  console.log(ret.length === 0 ? "FRULA" : ret.join())
 }
 
 Solution();
