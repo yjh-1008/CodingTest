@@ -1,84 +1,56 @@
-class Heap {
-    constructor() {
-      this.heap=[]
+class Heap{
+  construtor() {
+    this.heap=[];
+  }
+  getLeftChildIndex = parentIndex => parentIndex * 2 + 1
+  getRightChildIndex = parentIndex => parentIndex * 2 + 2
+  getParentIndex = childIndex => Math.floor((childIndex - 1) / 2)
+
+  push(value) {
+    this.heap.push(value);
+
+    let curIdx = this.heap.length-1;
+    let num = heap[curIdx];
+
+    while(curIdx > 0) {
+      let parIdx = this.getLeftChildIndex(curIdx);
+      if(num < heap[parIdx]) {
+        arr[curIdx] = parIdx;
+        curIdx = parIdx;
+      }else  break;
     }
-  
-    getLeftChildIndex = (parentIndex) => parentIndex *2 +1;
-    getRightChildIndex = (parentIndex) => parentIndex *2 +2;
-    getParentIndex = (childIndex) => Math.floor((childIndex - 1) / 2)
-  
-    peek = () => this.heap[0]
-  
-    insert = (key, value) => { // 우선순위를 비교하기 위해서 key, value 로 받는다.
-      const node = { key, value } // 객체로 node 를 만들고
-      this.heap.push(node) // push 한다.
-      this.heapifyUp() // 배열에 가장 끝에 넣고, 다시 min heap 의 형태를 갖추도록 한다.
-    }
-  
-    heapifyUp = () => {
-      let index = this.heap.length -1;
-      const lastInsertNode = this.heap[index];
-  
-      while(index > 0) {
-        const parentIndex = this.getParentIndex(index);
-  
-        if(this.heap[parentIndex].key > lastInsertNode.key) {
-          this.heap[index] = this.heap[parentIndex];
-          index = parentIndex;
-        }else break;
-  
-        
-      }
-      this.heap[index] = lastInsertNode;
-    }
-  
-    remove = () => {
-      const count = this.heap.length;
-      const rootNode = this.heap[0];
-  
-      if(count <= 0) return undefined;
-      if(count === 1) this.heap = [];
-      else {
-        this.heap[0] = this.heap.pop();
-        this.heapifyDown();
-      }
-  
-      return rootNode;
-    }
-  
-    heapifyDown = () => {
-      let index = 0;
-      const count = this.heap.length;
-      const rootNode= this.heap[index];
-  
-  
-      while(this.getLeftChildIndex(index) < count ){
-        const leftChildIdx = this.getLeftChildIndex(index);
-        const rightChildIdx = this.getRightChildIndex(index);
-  
-        const smallerChildIndex = 
-        rightChildIdx < count && this.heap[rightChildIdx].key < this.heap[leftChildIdx].key
-        ? rightChildIdx
-        :leftChildIdx
-  
-  
-        if(this.heap[smallerChildIndex].key <= rootNode.key) {
-          this.heap[index] = this.heap[smallerChildIndex]
-          index = smallerChildIndex
-        }else break;
-  
-        this.heap[index] = rootNode
-      }
+
+    arr[curIdx] = num;
+  }
+
+  remove() {
+    let len = this.heap.length;
+    let root= this.heap[0];
+
+    if (count <= 0) return undefined
+    if (count === 1) this.heap = []
+    else {
+      this.heap[0] = this.heap.pop();
+
     }
   }
-  
-  class PriorityQueue extends Heap {
-    constructor() {
-      super()
+
+  heapifyDown=()=> {
+    let idx= 0;
+    let count = this.heap.length;
+    let root = this.heapp[0];
+
+    while(root <= this.heap.length) {
+      let left = this.getLeftChildIndex(root);
+      let right = this.getRightChildIndex(root);
+
+      let smIdx = right < count &&
+      this.heap[right] < this.heap[left] ? right: left;
+
+      if(this.heap[smIdx] > root) {
+        this.heap[idx]= this.heap[smIdx];
+        index = smIdx;
+      }else break;
     }
-  
-    enqueue = (priority, value) => this.insert(priority, value)
-    dequeue = () => this.remove()
-    isEmpty = () => this.heap.length <= 0
   }
-  
+}
