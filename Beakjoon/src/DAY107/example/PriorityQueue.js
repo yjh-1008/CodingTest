@@ -27,12 +27,13 @@ class Heap{
     let len = this.heap.length;
     let root= this.heap[0];
 
-    if (count <= 0) return undefined
-    if (count === 1) this.heap = []
+    if (len <= 0) return undefined
+    if (len === 1) this.heap = []
     else {
       this.heap[0] = this.heap.pop();
-
+      heapifyDown();
     }
+    return root;
   }
 
   heapifyDown=()=> {
