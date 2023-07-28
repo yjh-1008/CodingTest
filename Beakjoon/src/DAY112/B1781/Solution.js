@@ -82,11 +82,7 @@ class PriorityQueue extends MinHeap {
 const fs = require('fs');
 const input = fs.readFileSync('./index.txt').toString().trim().split('\n');
 const N = parseInt(input[0]);
-const arr = [];
-for(let i=1;i<=N;i++) {
-  arr.push(input[i].split(' ').map(Number));
-}
-
+const arr = input.slice(1).map(v => v.split(' ').map(Number))
 function Solution() {
   let pq = new PriorityQueue()
   arr.sort((a,b)=> {
@@ -94,11 +90,11 @@ function Solution() {
     else return a[0]-b[0];
   })
 
-  for (let i = 0; i < N; i++) {
-    pq.enqueue(arr[i][1], arr[i][0])
-    const deadline = arr[i][0]
-    if (pq.heap.length > deadline) {
-      pq.dequeue()
+  for(let i=0;i<N;i++) {
+    pq.enqueue(arr[i][1], arr[i][0]);
+    const deadLine = arr[i][0];
+    if(pq.heap.length > deadLine) {
+      pq.dequeue();
     }
   }
   console.log(pq.heap.reduce((acc, cur) => acc + cur.key, 0))
