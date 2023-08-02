@@ -1,155 +1,134 @@
-const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-let n = 0,
-    count = -1;
-let input = [];
+var fs = require('fs');
+var input = fs.readFileSync('./dev/stdin').toString().trim().split('\n');
 
-function getAccumulatedArray(arr) {
-    const result = [];
-
-    for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i] === 0) continue;
-
-        if (arr[i] === arr[i + 1]) {
-            result.push(arr[i] * 2);
-            arr[i + 1] = 0;
-        } else {
-            result.push(arr[i]);
-        }
+var size = Number(input.shift());
+var result = 0, map = [];
+for (var n = 0; n < size; n++) {
+    var cache = input[n].split(' ');
+    map[n] = [];
+    for (var m = 0; m < size; m++) {
+        map[n][m] = Number(cache[m]);
     }
-    if (arr[arr.length - 1] !== 0) result.push(arr[arr.length - 1]);
-    
-    return result;
 }
+game(0);
+console.log(result);
 
-function pushLeft(array) {
-    for (let i = 0; i < n; i++) {
-        const arr = [];
-
-        for (let j = 0; j < n; j++) {
-            if (array[i][j] !== 0) {
-                arr.push(array[i][j]);
-                array[i][j] = 0;
+function game(count) {
+    if (count == 5) {
+        for (var n = 0; n < size; n++) {
+            for (var m = 0; m < size; m++) {
+                if (map[n][m] > result) result = map[n][m];
             }
         }
-        if (arr.length > 0) {
-            const result = getAccumulatedArray(arr);
-
-            for (let j = 0; j < result.length; j++) {
-                array[i][j] = result[j];
-            }
-        }
-    }
-    return array;
-}
-
-function pushRight(array) {
-    for (let i = 0; i < n; i++) {
-        const arr = [];
-
-        for (let j = n - 1; j >= 0; j--) {
-            if (array[i][j] !== 0) {
-                arr.push(array[i][j]);
-                array[i][j] = 0;
-            }
-        }
-        if (arr.length > 0) {
-            const result = getAccumulatedArray(arr);
-
-            for (let j = 0; j < result.length; j++) {
-                array[i][n - 1 - j] = result[j];
-            }
-        }
-    }
-    return array;
-}
-
-function pushUp(array) {
-    for (let j = 0; j < n; j++) {
-        const arr = [];
-
-        for (let i = 0; i < n; i++) {
-            if (array[i][j] !== 0) {
-                arr.push(array[i][j]);
-                array[i][j] = 0;
-            }
-        }
-        if (arr.length > 0) {
-            const result = getAccumulatedArray(arr);
-
-            for (let i = 0; i < result.length; i++) {
-                array[i][j] = result[i];
-            }
-        }
-    }
-    return array;
-}
-
-function pushDown(array) {
-    for (let j = 0; j < n; j++) {
-        const arr = [];
-
-        for (let i = n - 1; i >= 0; i--) {
-            if (array[i][j] !== 0) {
-                arr.push(array[i][j]);
-                array[i][j] = 0;
-            }
-        }
-        if (arr.length > 0) {
-            const result = getAccumulatedArray(arr);
-
-            for (let i = 0; i < result.length; i++) {
-                array[n - 1 - i][j] = result[i];
-            }
-        }
-    }
-    return array;
-}
-
-function copyArray(array) {
-    let arr = [];
-
-    array.forEach((v) => {
-        arr.push([...v]);
-    });
-    return arr;
-}
-let max = 0;
-
-function moveBlock(array, cnt) {
-    if (cnt === 0) {
-        array.forEach((v) => {
-            max = Math.max(max, ...v);
-        })
         return;
     }
-    let arr = copyArray(array);;
-    arr = pushLeft(arr);
-    moveBlock(arr, cnt - 1);
-    arr = copyArray(array);
-    arr = pushRight(arr);
-    moveBlock(arr, cnt - 1);
-    arr = copyArray(array);
-    arr = pushUp(arr);
-    moveBlock(arr, cnt - 1);
-    arr = copyArray(array);
-    arr = pushDown(arr);
-    moveBlock(arr, cnt - 1);
+
+    var _map = [];
+    for (var n = 0; n < size; n++) {
+        _map[n] = map[n].slice();
+    }
+
+    leftGo();
+    game(count + 1);
+    for (var m = 0; m < size; m++) {
+        map[m] = _map[m].slice();
+    }
+ 
+    rightGo();
+    game(count + 1);
+    for (var m = 0; m < size; m++) {
+        map[m] = _map[m].slice();
+    }
+
+    topGo();
+    game(count + 1);
+    for (var m = 0; m < size; m++) {
+        map[m] = _map[m].slice();
+    }
+
+    bottomGo();
+    game(count + 1);
+    for (var m = 0; m < size; m++) {
+        map[m] = _map[m].slice();
+    }
 }
 
-rl.on('line', function (line) {
-    if (count === -1) {
-        n = parseInt(line);
-        count = n;
-        return;
+function leftGo(){
+    for (var n = 0; n < size; n++) {
+        var index = 0, block = 0;
+        for (var m = 0; m < size; m++) {
+            if (map[m][n] != 0) {
+                if (block == map[m][n]) {
+                    map[index - 1][n] = block * 2;
+                    block = 0;
+                    map[m][n] = 0;
+                } else {
+                    block = map[m][n];
+                    map[m][n] = 0;
+                    map[index][n] = block;
+                    index++;
+                }
+            }
+        }
     }
-    count--;
-    input.push(line.split(' ').map((v) => parseInt(v)));
-    if (count === 0) rl.close();
-}).on('close', function () {
-    moveBlock(input, 5);
-    console.log(max);
-});
+}
+
+function rightGo() {
+    for (var n = 0; n < size; n++) {
+        var index = size - 1, block = 0;
+        for (var m = size - 1; m >= 0; m--) {
+            if (map[m][n] != 0) {
+                if (block == map[m][n]) {
+                    map[index + 1][n] = block * 2;
+                    block = 0;
+                    map[m][n] = 0;
+                } else {
+                    block = map[m][n];
+                    map[m][n] = 0;
+                    map[index][n] = block;
+                    index--;
+                }
+            }
+        }
+    }
+}
+
+function topGo() {
+    for (var n = 0; n < size; n++) {
+        var index = 0, block = 0;
+        for (var m = 0; m < size; m++) {
+            if (map[n][m] != 0) {
+                if (block == map[n][m]) {
+                    map[n][index - 1] = block * 2;
+                    block = 0;
+                    map[n][m] = 0;
+                } else {
+                    block = map[n][m];
+                    map[n][m] = 0;
+                    map[n][index] = block;
+                    index++;
+                }
+            }
+        }
+    }
+}
+
+function bottomGo () {
+    for (var n = 0; n < size; n++) {
+        var index = size - 1, block = 0;
+        for (var m = size - 1; m >= 0; m--) {
+            if (map[n][m] != 0) {
+                if (block == map[n][m]) {
+                    map[n][index + 1] = block * 2;
+                    block = 0;
+                    map[n][m] = 0;
+                } else {
+                    block = map[n][m];
+                    map[n][m] = 0;
+                    map[n][index] = block;
+                    index--;
+                }
+            }
+        }
+    }
+}
