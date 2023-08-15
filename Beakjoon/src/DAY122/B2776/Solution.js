@@ -4,8 +4,7 @@ const T = parseInt(input.shift());
 
 function bs(n, arr, len) {
   let lt = 0, rt = len-1;
-  while(true)  {
-    if(lt > len || rt< 0 || lt > rt) break;
+  while(lt<=rt)  {
     let mid = Math.floor((lt+rt)/2);
     if(arr[mid] === n) return true;
     else if(arr[mid] > n) rt = mid-1;
