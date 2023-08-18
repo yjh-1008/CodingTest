@@ -14,7 +14,6 @@ function binarySort(n, arr, len) {
       lt = mid+1;
     }
   }
-  console.log('ret', ret)
   if(ret === 0 ) return arr[0] < n ? 1 : 0;
   ret++;
   return ret;
@@ -29,9 +28,7 @@ function Solution() {
     const A = input.shift().split(' ').map(Number);
     const B = input.shift().split(' ').map(Number).sort((a,b) => a-b);
     for(let j=0;j<N;j++) {
-      
       tmp += binarySort(A[j], B, M);
-      console.log('tmp',tmp)
     }
     ret.push(tmp);
   }
