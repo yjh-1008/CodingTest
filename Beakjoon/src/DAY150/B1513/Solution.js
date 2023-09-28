@@ -26,7 +26,7 @@ function Solution() {
       return   dp[x][y][cnt][prev]= answer;
     }
     if(map[x][y] >prev) {
-      answer  = (go(y + 1, x, cnt - 1, map[x][y]) + go(y, x + 1, cnt - 1, map[x][y])) % mod;
+      answer  = (go(x + 1, y, cnt - 1, map[x][y]) + go(x, y + 1, cnt - 1, map[x][y])) % mod;
       return dp[x][y][cnt][prev]= answer;
     }
     return  dp[x][y][cnt][prev] = 0;
