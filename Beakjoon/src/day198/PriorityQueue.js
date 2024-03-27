@@ -2,65 +2,81 @@
 
 class PriorityQueue {
   constructor() {
-    this.values=[];
+    this.heap = []
   }
 
-  // enqueue(val) {
-  //   this.values.push(val);
-  //   this.bubleUp();
-  // }
+  getParentIndex = (childIndex) => Math.floor((childIndex - 1) / 2)
 
-  euqueue(val) {
-    this.values.push(val);
-    this.boubleUp();
+  peek = () => this.heap[0] // 항상 최상위 노드가 peek 가 된다.
+
+  insert = (key, value) => { // 우선순위를 비교하기 위해서 key, value 로 받는다.
+    const node = { key, value } // 객체로 node 를 만들고
+    this.heap.push(node) // push 한다.
+    this.heapifyUp() // 배열에 가장 끝에 넣고, 다시 min heap 의 형태를 갖추도록 한다.
   }
 
-  boubleUp() {
-    let el = this.values[this.values.length-1];
-    let idx = this.values.length-1;
+  heapifyUp = () => {
+    let index = this.heap.length - 1 // 계속해서 변하는 index 값
+    const lastInsertedNode = this.heap[index]
 
-    while(true) {
-      let parent = Math.floor(idx/2);
-      let parentVal = this.values[parent];
-      if(parentVal <= el) break;
-      this.values[parent] = el;
-      this.values[idx] = parent;
-      idx = parentIdx;
+    // 루트노드가 되기 전까지
+    while (index > 0) {
+      const parentIndex = this.getParentIndex(index)
 
+      // 부모 노드의 key 값이 마지막에 삽입된 노드의 키 값 보다 크다면
+      // 부모의 자리를 계속해서 아래로 내린다.
+      if (this.heap[parentIndex].key > lastInsertedNode.key) {
+        this.heap[index] = this.heap[parentIndex]
+        index = parentIndex
+      } else break
     }
+
+    // break 를 만나서 자신의 자리를 찾은 상황
+    // 마지막에 찾아진 곳이 가장 나중에 들어온 노드가 들어갈 자리다.
+    this.heap[index] = lastInsertedNode
   }
 
-  // bubleUp() {
-  //   let idx = this.values.length-1;
-  //   let el = this.values[idx];
+  remove = () => {
+    const count = this.heap.length
+    const rootNode = this.heap[0]
 
-  //   while(true) {
-  //     const parentIdx = parseInt(idx/2);
-  //     const parent = this.values[parentIdx];
-  //     if(el >= parent) break;
-  //     this.values[parentIdx] = el;
-  //     this.values[idx] = parentIdx;
-  //     idx = parentIdx;
-  //   }
-  // }
+    if (count <= 0) return undefined
+    if (count === 1) this.heap = []
+    else {
+      this.heap[0] = this.heap.pop() // 끝에 있는 노드를 부모로 만들고
+      this.heapifyDown() // 다시 min heap 의 형태를 갖추도록 한다.
+    }
 
-  // dequeue() {
-  //   if(this.values.length === 1) return this.values.pop();
-  //   let res = this.values[0];
-  //   this.values[0] = this.values.pop();
-  //   this.bubleDown(0, this.values.length-1);
-  //   return res;
-  // }
+    return rootNode
+  }
+  getLeftChildIndex = (parentIndex) => parentIndex * 2 + 1
+  getRightChildIndex = (parentIndex) => parentIndex * 2 + 2
 
-  // bubleDown(pos, len) {
-  //   let tmp = this.values[pos], child;
-  //   while(pos<= parseInt(len/2)) {
-  //     child = pos *2;
-  //     if(child < len && this.values[child] > this.values[child+1]) child+=1;
-  //     if(tmp <=this.values[child]) break;
-  //     this.values[pos] = this.values[child];
-  //     pos = child;
-  //   }
-  //   this.values[pos] = tmp;
-  // }
+  heapifyDown = () => {
+    let index = 0
+    const count = this.heap.length
+    const rootNode = this.heap[index]
+
+    // 계속해서 left child 가 있을 때 까지 검사한다.
+    while (this.getLeftChildIndex(index) < count) {
+      const leftChildIndex = this.getLeftChildIndex(index)
+      const rightChildIndex = this.getRightChildIndex(index)
+
+      // 왼쪽, 오른쪽 중에 더 작은 노드를 찾는다
+      // rightChild 가 있다면 key의 값을 비교해서 더 작은 값을 찾는다.
+      // 없다면 leftChild 가 더 작은 값을 가지는 인덱스가 된다.
+      const smallerChildIndex =
+        rightChildIndex < count && this.heap[rightChildIndex].key < this.heap[leftChildIndex].key
+          ? rightChildIndex
+          : leftChildIndex
+
+      // 자식 노드의 키 값이 루트노드보다 작다면 위로 끌어올린다.
+      if (this.heap[smallerChildIndex].key <= rootNode.key) {
+        this.heap[index] = this.heap[smallerChildIndex]
+        index = smallerChildIndex
+      } else break
+    }
+
+    this.heap[index] = rootNode
+  }
 }
