@@ -10,7 +10,6 @@ let ret = 0;
 function Solution() {
   const LCS = Array.from({length: str1.length+1}, () => new Array(str2.length+1).fill(0));
   str1 = str1.split(""), str2=str2.split("");
-  // console.log(str1, str2);
   for(let i=1; i<=str1.length; i++) {
     for(let j=1; j<=str2.length; j++) {
       if(str1[i-1] === str2[j-1]) {
