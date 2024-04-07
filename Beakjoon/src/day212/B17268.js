@@ -17,8 +17,8 @@ const Solution = () => {
         arr[i] %= MOD;
     }
     arr[i] %= MOD;
-}
-console.log(arr)
+  }
+  // console.log(arr);
   console.log(arr[N]);
 }
 
