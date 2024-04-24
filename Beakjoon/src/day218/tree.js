@@ -124,8 +124,7 @@ class BST {
     }
   }
 
-  findMinNode(node)
-  {
+  findMinNode(node) {
     // if left of a node is null
     // then it must be minimum node
     if(node.left === null)
