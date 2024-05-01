@@ -55,3 +55,49 @@ class MinHeap {
       return min;
   }
 }
+
+class Heap {
+    constructor() {
+        this.heap = [];
+    }
+
+    swap(idx1, idx2) {
+        const temp = this.heap[idx1];
+        this.heap[idx1] = this.heap[idx2];
+        this.heap[idx2] = temp;
+    }
+
+    add(item) {
+       this.heap.push(item);
+
+       let nodeIdx = this.heap.length-1;
+       let parentIdx = Math.floor(nodeIdx/2);
+       
+       while(this.heap[nodeIdx] && this.heap[nodeIdx] > item) {
+        parentIdx = Math.floor((nodeIdx-1)/2);
+        this.swap(nodeIdx, parentIdx) 
+        }
+    }
+
+    heafify() {
+        let idx = 0, left = 1, right=2;
+        while(this.heap[left]) {
+            let smallIdx = idx === 0 ? 1: idx*2;
+            if(this.heap[right] && this.heap[smallIdx] > this.heap[right]) {
+                smallIdx = right;
+            }
+
+            if(this.heap[idx] < this.heap[smallIdx]) break;
+
+            this.swap(smallIdx, idx);
+            idx = smallIdx;
+        }
+    }
+
+    remove() {
+        const ret = this.heap[this.heap.length-1];
+        this.heap[0] = this.heap.pop();
+        this.heafify();
+        return ret;
+    }
+}
