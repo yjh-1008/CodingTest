@@ -38,7 +38,7 @@ const quick_sort = (arr) => {
 
 
   return [...lSort, pivot, ...rSort];
-
+  
 }
 
 const quick_sort1 = (arr) => {
