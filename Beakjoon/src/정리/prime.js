@@ -23,8 +23,5 @@ function prims (graph) {
         mst[j] = graph[u][j];
       }
     }
-
-
-    // if(!selected[] && )
   }
 }
