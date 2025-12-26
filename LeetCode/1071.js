@@ -4,27 +4,26 @@
  * @return {string}
  */
 var gcdOfStrings = function(str1, str2) {
-    let left = 0, right = 0;
+   
+    let len1 = str1.length, len2 = str2.length;
 
-    let sStr = "", lStr = "";
-
-    let answer = "";
-
-    if(str1.length > str2.length) {
-        sStr = str2;
-        lStr = str1;
-    } else {
-        sStr = str1;
-        lStr = str2;
+    const isValid = (k) => {
+        if(len1 % k === 0
+            && len2 % k === 0
+        ) {
+            const tmp = str1.slice(0, k)
+            return str1.replaceAll(tmp, "") === "" &&
+            str2.replaceAll(tmp,"") === ""
+        } else {
+            return false;
+        }
     }
 
-    for(let i=1; i<=sStr.length ;i++) {
-        const tmp = sStr.slice(0, i);
-        if(
-            sStr.replaceAll(tmp,'').length  === 0 
-            && lStr.replaceAll(tmp,'').length  === 0
-        ) answer = tmp
-    } 
-    
-    return answer;
+    for(let i = Math.min(len1, len2); i > 0; i--) {
+        if(isValid(i)) {
+            return str1.slice(0, i)
+        }
+    }
+
+    return "";
 };
